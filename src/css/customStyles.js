@@ -25,5 +25,12 @@ export const styles = {
   },
   cardNoShadow: {
     boxShadow: '0 0px 0px 0px'
+  },
+  alignCenter: {
+    textAlign: 'center',
+  },
+  alignAndFav: {
+    textAlign: 'center',
+    color: '#f6cd36'
   }
 }

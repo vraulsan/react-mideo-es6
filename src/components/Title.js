@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import {styles} from '../css/customStyles'
-
+import Favorite from './Favorite'
 
 function searchDetails (imdbID) {
   return axios.get('http://www.omdbapi.com/?i='+imdbID)
@@ -52,19 +52,13 @@ export default class Title extends Component {
               </ul>
             </td>
             <td>{this.info.Year}</td>
-            {this.props.authed
-             ? <td><p>Options for you</p></td>
-             : <td><p>Need to login</p></td>
-            }
+            <Favorite states={this.props.states} imdbID={this.info.imdbID} />
           </tr>
       : <tr onClick={this.expandTitle}>
           <td>{this.info.imdbID}</td>
           <td>{this.info.Title}</td>
           <td>{this.info.Year}</td>
-          {this.props.authed
-            ? <td><p>Options for you</p></td>
-            : <td><p>Need to login</p></td>
-          }
+          <Favorite states={this.props.states} imdbID={this.info.imdbID}  />
         </tr>
 
     )

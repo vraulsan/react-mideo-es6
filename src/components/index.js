@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
-import Login from './Login'
-import Register from './Register'
 import Home from './Home'
 import Dashboard from './protected/Dashboard'
-import { logout } from '../helpers/auth'
+import { logout, saveUserGoogle } from '../helpers/auth'
 import { firebaseAuth } from '../config/constants'
+import firebase from 'firebase'
+
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
@@ -38,9 +38,11 @@ export default class App extends Component {
   componentDidMount () {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
       if (user) {
+        var currentUser = firebaseAuth().currentUser
         this.setState({
           authed: true,
-          loading: false,
+          currentUser: currentUser,
+          loading: false
         })
       } else {
         this.setState({
@@ -51,6 +53,17 @@ export default class App extends Component {
   }
   componentWillUnmount () {
     this.removeListener()
+  }
+  handleGoogle = () => {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/userinfo.email');
+    firebase.auth().signInWithPopup(provider)
+      .then(result => {
+        var token = result.credential.accessToken; //use this Token to access Google API
+        var user = result.user
+        saveUserGoogle(user);
+      })
+      .catch(error => console.log(error))
   }
   render() {
     return this.state.loading === true ? <h1>Loading</h1> : (
@@ -66,20 +79,22 @@ export default class App extends Component {
                   <Link to="/" className="navbar-brand">Home</Link>
                 </li>
                 <li>
-                  <Link to="/dashboard" className="navbar-brand">Dashboard</Link>
-                </li>
-                <li>
                   {this.state.authed
-                    ? <button
+                    ? <span>
+                        <Link to="/Dashboard" className="navbar-brand">{this.state.currentUser.displayName}</Link>
+                      <button
                         style={{border: 'none', background: 'transparent'}}
                         onClick={() => {
                           logout()
                           this.setState({authed: false})
                         }}
                         className="navbar-brand">Logout</button>
+                      </span>
                     : <span>
-                        <Link to="/login" className="navbar-brand">Login</Link>
-                        <Link to="/register" className="navbar-brand">Register</Link>
+                        <button
+                        style={{border: 'none', background: 'transparent'}}
+                        onClick={this.handleGoogle}
+                        className="navbar-brand">Login</button>
                       </span>}
                 </li>
               </ul>
@@ -88,9 +103,7 @@ export default class App extends Component {
           <div className="container">
             <div className="row">
               <Switch>
-                <Route path='/' exact component={() => (<Home authed={this.state.authed}/>)}/>
-                <PublicRoute authed={this.state.authed} path='/login' component={Login} />
-                <PublicRoute authed={this.state.authed} path='/register' component={Register} />
+                <Route path='/' exact component={() => (<Home states={this.state}/>)}/>
                 <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard} />
                 <Route render={() => <h3>No Match</h3>} />
               </Switch>

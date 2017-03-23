@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Title from './Title'
+import {firebaseAuth} from '../config/constants'
+import {styles} from '../css/customStyles'
+
 
 function searchResults (titleToSearch, yearToSearch, typeToSearch) {
   return axios.get('http://www.omdbapi.com/?s=' + titleToSearch + '&y=' + yearToSearch + '&type=' + typeToSearch)
@@ -33,7 +36,7 @@ export default class Home extends Component {
         .then((results) => {
           this.setState({ queried: true });
           var results = results.data.Search.map(eachTitle => {
-            return <Title key={eachTitle.imdbID} titleInfo={eachTitle} authed={this.props.authed} />
+            return <Title key={eachTitle.imdbID} titleInfo={eachTitle} states={this.props.states} />
           })
           this.setState({
             results: results,
@@ -44,7 +47,9 @@ export default class Home extends Component {
   render () {
     return (
       <div>
+        <div className="row">
         <div className="container">
+        <div className="col-sm-4 col-sm-offset-4">
           <h1> Media Query</h1>
           <form onSubmit={this.submitForm}>
             <div className="form-group">
@@ -70,12 +75,14 @@ export default class Home extends Component {
             ? this.state.isLoading
               ? <h1> Loading... </h1>
               : <table className="table table-striped">
-                  <thead><tr><th>IMDb ID</th><th>Title</th><th>Year</th><th>Operations</th></tr></thead>
+                  <thead><tr><th>IMDb ID</th><th>Title</th><th>Year</th><th style={styles.alignCenter}>Operations</th></tr></thead>
                   <tbody>{this.state.results}</tbody>
                  </table>
             : <p />
           }
         </div>
+      </div>
+      </div>
       </div>
     )
   }
