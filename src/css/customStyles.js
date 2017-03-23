@@ -8,9 +8,6 @@ export const styles = {
   paddingTop: {
     padding: '20px'
   },
-  alignCenter: {
-    textAlign: 'center'
-  },
   marginButton: {
     margin: '30px 30px 25px 280px'
   },

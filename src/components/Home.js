@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Title from './Title'
-import {firebaseAuth} from '../config/constants'
 import {styles} from '../css/customStyles'
 
 
@@ -13,7 +12,6 @@ export default class Home extends Component {
   state = {
     titleToSearch: '',
     yearToSearch: '',
-    typeToSearch: '',
     queried: false,
     results: '',
     isLoading: false
@@ -24,18 +22,16 @@ export default class Home extends Component {
   updateYear = (e) => {
     this.setState({yearToSearch: e.target.value})
   }
-  changeType = (e) => {
-    this.setState({typeToSearch: e.target.value})
-  }
   submitForm = (e) => {
     e.preventDefault()
+    var type = document.getElementById("mySelect").value
     this.state.titleToSearch === ''
     ? null
     : this.setState({isLoading: true})
-      searchResults(this.state.titleToSearch, this.state.yearToSearch, this.state.typeToSearch)
+      searchResults(this.state.titleToSearch, this.state.yearToSearch, type)
         .then((results) => {
           this.setState({ queried: true });
-          var results = results.data.Search.map(eachTitle => {
+          results = results.data.Search.map(eachTitle => {
             return <Title key={eachTitle.imdbID} titleInfo={eachTitle} states={this.props.states} />
           })
           this.setState({
@@ -62,7 +58,7 @@ export default class Home extends Component {
             </div>
             <div className="form-group">
               <label>Type</label>
-              <select className="form-control" onChange={this.updateType}>
+              <select id="mySelect" className="form-control">
                 <option defaultValue value="movie">Movie</option>
                 <option value="series">Series</option>
               </select>

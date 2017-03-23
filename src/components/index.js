@@ -19,7 +19,7 @@ function PrivateRoute ({component: Component, authed, ...rest}) {
   )
 }
 
-function PublicRoute ({component: Component, authed, ...rest}) {
+/*function PublicRoute ({component: Component, authed, ...rest}) {
   return (
     <Route
       {...rest}
@@ -28,7 +28,7 @@ function PublicRoute ({component: Component, authed, ...rest}) {
         : <Redirect to='/dashboard' />}
     />
   )
-}
+}*/
 
 export default class App extends Component {
   state = {
@@ -59,7 +59,7 @@ export default class App extends Component {
     provider.addScope('https://www.googleapis.com/auth/userinfo.email');
     firebase.auth().signInWithPopup(provider)
       .then(result => {
-        var token = result.credential.accessToken; //use this Token to access Google API
+        //var token = result.credential.accessToken; use this Token to access Google API
         var user = result.user
         saveUserGoogle(user);
       })

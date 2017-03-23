@@ -17,7 +17,7 @@ export default class Title extends Component {
       imdbID: this.props.titleInfo.imdbID,
       Title: this.props.titleInfo.Title,
       Year: this.props.titleInfo.Year
-    },
+    }
     this.details = {}
   }
   expandTitle = () => {
@@ -40,7 +40,7 @@ export default class Title extends Component {
             <td>{this.info.Year}</td>
           </tr>
         : <tr onClick={this.expandTitle}>
-            <td><img className='img-rounded img-responsive' src={this.details.Poster} style={styles.posterStyle}/></td>
+            <td><img role="presentation" className='img-rounded img-responsive' src={this.details.Poster} style={styles.posterStyle}/></td>
             <td>{this.info.Title}<h1 />
               <ul>
                 <li><strong>Director:</strong> {this.details.Director}</li>

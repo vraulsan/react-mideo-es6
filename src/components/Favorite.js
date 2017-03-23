@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import {styles} from '../css/customStyles'
-import { ref, firebaseAuth } from '../config/constants'
+import { ref } from '../config/constants'
 import { removeFav, addFav } from '../helpers/auth'
 
 
