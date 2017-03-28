@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
 import Home from './Home'
 import Dashboard from './protected/Dashboard'
-import { logout, saveUserGoogle } from '../helpers/auth'
+import { logout, saveUserGoogle } from '../helpers/helpers'
 import { firebaseAuth } from '../config/constants'
 import firebase from 'firebase'
 
@@ -82,13 +82,12 @@ export default class App extends Component {
                   {this.state.authed
                     ? <span>
                         <Link to="/Dashboard" className="navbar-brand">{this.state.currentUser.displayName}</Link>
-                      <button
-                        style={{border: 'none', background: 'transparent'}}
+                      <Link to="/"
                         onClick={() => {
                           logout()
                           this.setState({authed: false})
                         }}
-                        className="navbar-brand">Logout</button>
+                        className="navbar-brand">Logout</Link>
                       </span>
                     : <span>
                         <button
@@ -103,8 +102,8 @@ export default class App extends Component {
           <div className="container">
             <div className="row">
               <Switch>
-                <Route path='/' exact component={() => (<Home states={this.state}/>)}/>
-                <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard} />
+                <Route path='/' exact component={() => (<Home currentUser={this.state.currentUser}/>)}/>
+                <PrivateRoute authed={this.state.authed} path='/dashboard' component={() => (<Dashboard currentUser={this.state.currentUser}/>)}/>
                 <Route render={() => <h3>No Match</h3>} />
               </Switch>
             </div>

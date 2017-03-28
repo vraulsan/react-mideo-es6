@@ -1,6 +1,5 @@
 import { ref, firebaseAuth } from '../config/constants'
 
-
 export function logout () {
   return firebaseAuth().signOut()
 }
@@ -47,10 +46,12 @@ export function removeFav(user, imdbID) {
     .catch((error) => console.log('Error: ', error))
 }
 
-export function addFav(user, imdbID) {
-  return ref.child(`users/${user.uid}/favorites/${imdbID}`)
+export function addFav(user, info) {
+  return ref.child(`users/${user.uid}/favorites/${info.imdbID}`)
   .set({
-    'isFavorite': 'true'
+    'imdbID': info.imdbID,
+    'Title': info.Title,
+    'Year': info.Year
   })
   .then(() => user)
 }

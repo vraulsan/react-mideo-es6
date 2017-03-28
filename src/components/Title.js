@@ -35,7 +35,7 @@ export default class Title extends Component {
       this.state.isExpanded
       ? this.state.isLoading
         ? <tr>
-            <td>{this.info.imdbID}</td>
+            <td style={styles.fixedWidth}>{this.info.imdbID}</td>
             <td>{this.info.Title}<hr /><h1>Is Loading...</h1></td>
             <td>{this.info.Year}</td>
           </tr>
@@ -52,13 +52,13 @@ export default class Title extends Component {
               </ul>
             </td>
             <td>{this.info.Year}</td>
-            <Favorite states={this.props.states} imdbID={this.info.imdbID} />
+            <Favorite currentUser={this.props.currentUser} info={this.info} />
           </tr>
       : <tr onClick={this.expandTitle}>
-          <td>{this.info.imdbID}</td>
+          <td style={styles.fixedWidth}>{this.info.imdbID}</td>
           <td>{this.info.Title}</td>
           <td>{this.info.Year}</td>
-          <Favorite states={this.props.states} imdbID={this.info.imdbID}  />
+          <Favorite currentUser={this.props.currentUser} info={this.info}  />
         </tr>
 
     )

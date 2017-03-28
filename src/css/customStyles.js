@@ -29,5 +29,8 @@ export const styles = {
   alignAndFav: {
     textAlign: 'center',
     color: '#f6cd36'
+  },
+  fixedWidth: {
+    width: '200px'
   }
 }
