@@ -11,7 +11,7 @@ export default class Favorite extends Component {
   }
   componentDidMount () {
     if (this.props.currentUser) {
-      var favRef = ref.child(`users/${this.props.currentUser.uid}/favorites/${this.props.info.imdbID}`);
+      let favRef = ref.child(`users/${this.props.currentUser.uid}/favorites/${this.props.info.imdbID}`);
       return favRef.on('value', (snapshot) => {
         snapshot.val()
         ? this.setState({isFavorite: true})
@@ -27,7 +27,7 @@ export default class Favorite extends Component {
   }
   componentWillUnmount () {
     if (this.props.currentUser) {
-      var favRef = ref.child(`users/${this.props.currentUser.uid}/favorites/${this.props.info.imdbID}`);
+      let favRef = ref.child(`users/${this.props.currentUser.uid}/favorites/${this.props.info.imdbID}`);
       return favRef.off('value');
     }
   }

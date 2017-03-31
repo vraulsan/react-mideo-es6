@@ -9,9 +9,9 @@ export default class Dashboard extends Component {
     favs: []
   }
   componentWillMount () {
-    var favRef = ref.child(`users/${this.props.currentUser.uid}/favorites`);
+    let favRef = ref.child(`users/${this.props.currentUser.uid}/favorites`);
     favRef.on('value', (snapshot) => {
-      var favs = [];
+      let favs = [];
       snapshot.forEach(eachTitle => {
         favs.push(<Title key={eachTitle.key} titleInfo={eachTitle.val()} currentUser={this.props.currentUser} />)
       })
@@ -20,7 +20,7 @@ export default class Dashboard extends Component {
   }
   componentWillUnmount () {
     if (this.props.currentUser) {
-      var favRef = ref.child(`users/${this.props.currentUser.uid}/favorites/`);
+      let favRef = ref.child(`users/${this.props.currentUser.uid}/favorites/`);
       return favRef.off('value');
     }
   }

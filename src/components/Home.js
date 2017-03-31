@@ -5,20 +5,20 @@ import {styles} from '../css/customStyles'
 
 export default class Home extends Component {
   state = {
-    titleToSearch: '',
-    yearToSearch: '',
+    Title: '',
+    Year: '',
     results: '',
-    isLoading: false,
+    isLoading: true,
     formError: null,
     totalResults: Number,
     totalPages: Number,
     currentPage: 1
   }
   updateTitle = (e) => {
-    this.setState({titleToSearch: e.target.value})
+    this.setState({Title: e.target.value})
   }
   updateYear = (e) => {
-    this.setState({yearToSearch: e.target.value})
+    this.setState({Year: e.target.value})
   }
   queryOMDB = (title, year, type, page) => {
     axios.get('http://www.omdbapi.com/?s=' + title + '&y=' + year + '&type=' + type + '&page=' + page)
@@ -38,28 +38,31 @@ export default class Home extends Component {
   }
   submitForm = (e) => {
     e.preventDefault()
-    var type = document.getElementById("mySelect").value
-    if (this.state.titleToSearch === '') {
+    let type = document.getElementById("mySelect").value
+    if (this.state.Title === '') {
       this.setState({formError: 'You must enter a title name'})
     } else {
-      this.setState({isLoading: true})
-      this.setState({formError: null})
-      this.queryOMDB(this.state.titleToSearch, this.state.yearToSearch, type, this.state.currentPage)
+      this.setState({isLoading: true, formError: null})
+      this.queryOMDB(this.state.Title, this.state.Year, type, this.state.currentPage)
     }
   }
   prevPage = () => {
     if (this.state.currentPage === 1) { return null }
-      else {
-        var pager = this.state.currentPage - 1;
-        var type = document.getElementById("mySelect").value
-        this.setState({currentPage: this.state.currentPage - 1}, this.queryOMDB(this.state.titleToSearch, this.state.yearToSearch, type, pager));
-      }
+    let pager = this.state.currentPage - 1;
+    let type = document.getElementById("mySelect").value
+    this.setState(
+      {currentPage: this.state.currentPage - 1},
+      this.queryOMDB(this.state.Title, this.state.Year, type, pager)
+    );
   }
   nextPage = () => {
     if (this.state.currentPage === this.state.totalPages) { return null }
-    var type = document.getElementById("mySelect").value
-    var pager = this.state.currentPage + 1;
-    this.setState({currentPage: this.state.currentPage + 1}, this.queryOMDB(this.state.titleToSearch, this.state.yearToSearch, type, pager));
+    let type = document.getElementById("mySelect").value
+    let pager = this.state.currentPage + 1;
+    this.setState(
+      {currentPage: this.state.currentPage + 1},
+      this.queryOMDB(this.state.Title, this.state.Year, type, pager)
+    );
   }
   render () {
     return (
@@ -118,7 +121,6 @@ export default class Home extends Component {
             : <p />
           }
         </div>
-
       </div>
       </div>
       </div>
