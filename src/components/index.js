@@ -1,30 +1,12 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom'
+import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import Home from './Home'
 import Header from './Header'
 import Dashboard from './protected/Dashboard'
 import { firebaseAuth } from '../config/constants'
+import { PrivateRoute } from '../helpers/helpers'
 
-
-function PrivateRoute ({component: Component, authed, ...rest}) {
-  return (
-    <Route
-      {...rest}
-      render={(props) => authed === true
-        ? <Component {...props} />
-        : <Redirect
-            to={{
-              pathname: '/',
-              state: {
-                from: props.location
-              }
-            }}
-          />
-      }
-    />
-  )
-}
 
 export default class App extends Component {
   state = {
