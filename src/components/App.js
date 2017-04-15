@@ -14,7 +14,7 @@ export default class App extends Component {
     loading: true,
   }
   componentDidMount () {
-    this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+    firebaseAuth().onAuthStateChanged((user) => {
       if (user) {
         var currentUser = firebaseAuth().currentUser
         this.setState({
@@ -29,9 +29,6 @@ export default class App extends Component {
         })
       }
     })
-  }
-  componentWillUnmount () {
-    this.removeListener()
   }
   render() {
     return this.state.loading === true ? <h1>Loading</h1> : (

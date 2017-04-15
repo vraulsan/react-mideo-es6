@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { logout, saveUserGoogle } from '../helpers/helpers'
 import firebase from 'firebase'
+import {styles} from '../css/customStyles'
 
 export default class Header extends Component {
   state = {
@@ -15,7 +16,6 @@ export default class Header extends Component {
         //let token = result.credential.accessToken; use this Token to access Google API
         let user = result.user
         saveUserGoogle(user);
-        this.setState({authed: true})
       })
       .catch(error => console.log(error))
   }
@@ -44,7 +44,7 @@ export default class Header extends Component {
                   </span>
                 : <span>
                     <button
-                      style={{border: 'none', background: 'transparent'}}
+                      style={styles.buttonStyle}
                       onClick={this.handleGoogle}
                       className="navbar-brand">Login</button>
                   </span>}

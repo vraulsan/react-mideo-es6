@@ -32,5 +32,9 @@ export const styles = {
   },
   fixedWidth: {
     width: '200px'
+  },
+  buttonStyle: {
+    border: 'none',
+    background: 'transparent'
   }
 }
