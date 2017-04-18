@@ -70,7 +70,7 @@ export default class Home extends Component {
         <div className="row">
         <div className="container">
         <div className="col-sm-4 col-sm-offset-4">
-          <h1> Media Query</h1>
+          <h1> Media Query </h1>
           <form id="thisForm" onSubmit={this.submitForm}>
             <div className="form-group" required="">
               <label>Title</label>
